@@ -1,5 +1,7 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { v4 as uuid } from "uuid";
+import Axios from "axios";
 
 import "./App.css";
 import Todos from "./components/Todos";
@@ -8,29 +10,14 @@ import AddTodo from "./components/AddTodo";
 
 class App extends Component {
   state = {
-    todos: [
-      {
-        id: 1,
-        title: "Pay electricity bill",
-        complete: false,
-      },
-      {
-        id: 2,
-        title: "Call management",
-        complete: false,
-      },
-      {
-        id: 3,
-        title: "Take Medication",
-        complete: false,
-      },
-      {
-        id: 4,
-        title: "Learn react",
-        complete: false,
-      },
-    ],
+    todos: [],
   };
+
+  componentDidMount() {
+    Axios.get("https://jsonplaceholder.typicode.com/todos?_limit=10").then(
+      (res) => this.setState({ todos: res.data })
+    );
+  }
 
   markComplete = (id) => {
     this.setState({
@@ -45,32 +32,36 @@ class App extends Component {
 
   // Delete Todos
   deleteTodo = (id) => {
-    this.setState({
-      todos: [...this.state.todos.filter((todo) => todo.id !== id)],
-    });
+    Axios.delete(`https://jsonplaceholder.typicode.com/todos/${id}`).then(
+      (res) =>
+        this.setState({
+          todos: [...this.state.todos.filter((todo) => todo.id !== id)],
+        })
+    );
   };
 
   // AddTodo
   addTodo = (title) => {
-    const newTodo = {
-      id: uuid(),
+    Axios.post("https://jsonplaceholder.typicode.com/todos", {
+      id: uuid,
       title,
-      complete: false,
-    };
-    this.setState({ todos: [...this.state.todos, newTodo] });
+      comleted: false,
+    }).then((res) => this.setState({ todos: [...this.state.todos, res.data] }));
   };
 
   render() {
     return (
       <div className="App">
         <div className="container">
-          <Header />
-          <AddTodo addTodo={this.addTodo} />
-          <Todos
-            todos={this.state.todos}
-            markComplete={this.markComplete}
-            deleteTodo={this.deleteTodo}
-          />
+          <React.Fragment>
+            <Header />
+            <AddTodo addTodo={this.addTodo} />
+            <Todos
+              todos={this.state.todos}
+              markComplete={this.markComplete}
+              deleteTodo={this.deleteTodo}
+            />
+          </React.Fragment>
         </div>
       </div>
     );
