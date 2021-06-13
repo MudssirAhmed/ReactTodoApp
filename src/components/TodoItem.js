@@ -4,10 +4,10 @@ import propTypes from "prop-types";
 export class TodoItem extends Component {
   getStyle = () => {
     return {
-      background: "#f4f4f4",
+      background: "#333",
       padding: "10px",
-      borderBottom: "1px #ccc dotted",
-      textDecoration: this.props.todo.complete ? "line-through" : "none",
+      borderTop: "1px #ccc solid",
+      textDecoration: this.props.todo.complete ? "line-through #fff" : "none",
     };
   };
 
@@ -20,7 +20,7 @@ export class TodoItem extends Component {
 
     return (
       <div style={this.getStyle()}>
-        <p>
+        <p style={{ color: "#fff" }}>
           <input
             type="checkBox"
             onChange={this.props.markComplete.bind(this, id)}

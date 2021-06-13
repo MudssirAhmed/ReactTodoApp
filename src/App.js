@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { v4 as uuid } from "uuid";
 import Axios from "axios";
@@ -7,10 +7,15 @@ import "./App.css";
 import Todos from "./components/Todos";
 import Header from "./components/layout/Header";
 import AddTodo from "./components/AddTodo";
+import AddTask from "./components/AddTask";
 
 class App extends Component {
   state = {
     todos: [],
+  };
+
+  addTodo = {
+    addTodo: [false],
   };
 
   componentDidMount() {
@@ -51,21 +56,26 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
+      <div className="App" style={bodyStyles}>
         <div className="container">
           <React.Fragment>
             <Header />
-            <AddTodo addTodo={this.addTodo} />
             <Todos
               todos={this.state.todos}
               markComplete={this.markComplete}
               deleteTodo={this.deleteTodo}
             />
+            <AddTask addTodo={this.addTodo} />
           </React.Fragment>
         </div>
       </div>
     );
   }
 }
+
+const bodyStyles = {
+  background: "#333",
+  height: "100vh",
+};
 
 export default App;

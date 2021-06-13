@@ -30,3 +30,22 @@ a {
 .btn:hover {
   background: #666;
 }
+
+.inputTodo {
+  flex: 10;
+  padding: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  border: 0px;
+  margin: 10px 10px;
+}
+.inputTodo:focus {
+  outline: none;
+}
+
+.addTodoOpen {
+  display: none;
+}
+.addTodoClose {
+  display: block;
+}
